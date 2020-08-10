@@ -12,19 +12,27 @@ reduce the total execution time but will also take less memory while the program
 Python provides threading and queue module to achieve multithreading. 
 
 threading -  it provides a very simple and intuitive API for spawning multiple threads in a program.
+
 queue - It is especially useful in threaded programming when information must be exchanged safely between multiple threads.
 
 Using both these modules , we are going to implement the scenario mentioned above.
 
 Use case - Our usecase is to load a historical data from a table of around 40 GB with 5 years of data with a simple transformation applied.
 
-Year - 2003 to 2007
-Table Name - TEST
-New Table - TEST_HISTORY
-Approx data - 40 GB
-Query - SELECT t.*, RANK() OVER (PARTITION BY TEST_DATE ORDER BY TEST_NAME) AS RN
+| Type        | Description  |
+| ----------- | -----------  |
+| Year        | 2003 to 2007 |
+| Table Name  | TEST         |
+| New Table   |TEST_HISTORY  |
+| Approx data | 40 GB        |
+
+Query - 
+
+```sql
+SELECT t.*, RANK() OVER (PARTITION BY TEST_DATE ORDER BY TEST_NAME) AS RN
         FROM TEST
         WHERE TEST_DATE BETWEEN '01-JAN-2003' AND '31-DEC-2007'
+```
 
 There are two options to load the data into history Table -
 
