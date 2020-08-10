@@ -1,6 +1,6 @@
-MultiThreading in Python
+# MultiThreading in Python
 
-## This documentation is about Multithreading implementation in Python in detail along with an example ##
+## This documentation is about Multithreading implementation in Python in detail along with an example
 
 MultiThreading is executing more than 1 thread of a process concurrently without any inconsistencies/anomalies that reduces the exection time and memory required for the execution.
 The overall execution time is improved significantly and depends on no of threads inititiated. 
@@ -28,15 +28,17 @@ Query - SELECT t.*, RANK() OVER (PARTITION BY TEST_DATE ORDER BY TEST_NAME) AS R
 
 There are two options to load the data into history Table -
 
-1. INSERT INTO TEST_HISTORY
+```sql 
+   INSERT INTO TEST_HISTORY
    SELECT t.*, RANK() OVER (PARTITION BY TEST_DATE ORDER BY TEST_NAME) AS RN
    FROM TEST
    WHERE TEST_DATE BETWEEN '01-JAN-2003' AND '31-DEC-2007';
    
-2. CREATE TABLE TEST_HISTORY AS 
+   CREATE TABLE TEST_HISTORY AS 
    SELECT t.*, RANK() OVER (PARTITION BY TEST_DATE ORDER BY TEST_NAME) AS RN
    FROM TEST
    WHERE TEST_DATE BETWEEN '01-JAN-2003' AND '31-DEC-2007';
+```   
 
 Conventional Approach :- Using the two conventional approaches as mentioned above took approx 40 mins to execute which for sample is not bad 
 but consider if the data volume is pretty higher than we cannot afford to use the above approaches.
@@ -52,10 +54,12 @@ More/less number of threads may impact the overall performance.
 
 So, reference code will be -
 
+```python
+
 from threading import Thread
 from queue import Queue
 
-## Main Function ##
+## Main Function
 
 p_start_date1 = '01-JAN-2003'
 p_end_date1   = '31-DEC-2003'
@@ -81,7 +85,7 @@ for i in range(3):
 for thread in thread_list:
     thread.join()
 
-## Consumer Class ## 
+## Consumer Class
 
 class Consumer(Thread) :
     def __init__(self, queue):
@@ -105,7 +109,7 @@ class Consumer(Thread) :
             print('Start time:' + str(datetime.datetime.now()) + ' ' + p_start_date + ' ' + p_end_date)
             conn.close()
             self.queue.task_done()
-
+```
 
 Note the execution of threads and performance of the overall process.
 
